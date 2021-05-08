@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="description" content="Since 2019" />
+  
+
+  
+  <meta name="keywords" content="blog" />
+  
+  
+  
+  
+  
+  
+  <title>代码分析 #4 某乎上一行解八皇后的Python代码 | Leviolet&#39;s Loft</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="揭开装逼的外衣，探索装逼的本质">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码分析 #4 某乎上一行解八皇后的Python代码">
+<meta property="og:url" content="http://leviolet.github.io/2020/coderesearch-py4/index.html">
+<meta property="og:site_name" content="Leviolet&#39;s Loft">
+<meta property="og:description" content="揭开装逼的外衣，探索装逼的本质">
+<meta property="og:locale" content="zh">
+<meta property="article:published_time" content="2020-03-13T10:03:25.000Z">
+<meta property="article:modified_time" content="2020-03-13T10:10:23.324Z">
+<meta property="article:author" content="Leviolet">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="代码分析">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  
+  <!-- baidu webmaster push 查了一下,好像是百度拒绝外链的工具,暂时不用 -->
+  <!-- <script src='//push.zhanzhang.baidu.com/push.js'></script> -->
+  <!-- PWA manifest支持 -->
+  
+    <link rel="manifest" href="/manifest.json">
+  
+  
+    
+<link rel="stylesheet" href="/css/scheme.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="home blog custom-background custom-font-enabled single-author">
+  <div id="page" class="hfeed site">
+    <header id="masthead" class="site-header" role="banner">
+    <hgroup>
+      <h1 class="site-title">
+        <a href="/" title="Leviolet&#39;s Loft" rel="home">Leviolet&#39;s Loft</a>
+      </h1>
+      
+      <h2 class="site-description">
+        <a href="/" id="subtitle">互联网大森林中的平凡小屋</a>
+      </h2>
+      
+    </hgroup>
+	
+    <nav id="site-navigation" class="main-navigation" role="navigation">
+            <button class="menu-toggle">菜单</button>
+            <!-- <a class="assistive-text" href="/#content" title="跳至内容">跳至内容</a> TODO-->
+            <div class="menu-main-container">
+                <ul id="menu-main" class="nav-menu">
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/">🏡 主页</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/archives">🗄️ 归档</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/site/insta/">📔 随笔</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/tools/">🛠️ 工具</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/site/map/">🗺️ 导航</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/site/about/">⛄ 关于</a></li>
+                
+                </ul>
+            </div>
+    </nav>
+</header>
+
+    <div id="main" class="wrapper">
+      <div id="primary" class="site-content">
+        <div id="content" role="main"><article id="post-coderesearch-py4" class="post-coderesearch-py4 post type-post status-publish format-standard hentry">
+    <!---->
+
+      <header class="entry-header">
+        
+        
+  
+    <h1 class="entry-title article-title">
+      代码分析 #4 某乎上一行解八皇后的Python代码
+    </h1>
+  
+
+        
+      </header><!-- .entry-header -->
+
+    
+      
+        <div class="entry-content">
+          <blockquote>
+<p>揭开装逼的外衣，探索装逼的本质</p>
+</blockquote>
+<h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><p>源自某乎,作者：<a href="https://www.zhihu.com/people/est_" target="_blank" rel="noopener">est</a>.  原文如下  </p>
+<blockquote>
+<p>让开，我要装逼了。1行python解八皇后，其中一大半代码是用于打印出来带格式的。<br> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_=[__import__(<span class="string">'sys'</span>).stdout.write(<span class="string">"\n"</span>.join(<span class="string">'.'</span> * i + <span class="string">'Q'</span> + <span class="string">'.'</span> * (<span class="number">8</span>-i<span class="number">-1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> vec) + <span class="string">"\n===\n"</span>) <span class="keyword">for</span> vec <span class="keyword">in</span> __import__(<span class="string">'itertools'</span>).permutations(range(<span class="number">8</span>)) <span class="keyword">if</span> <span class="number">8</span> == len(set(vec[i]+i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>))) == len(set(vec[i]-i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>)))]</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="初步处理"><a href="#初步处理" class="headerlink" title="初步处理"></a>初步处理</h2><p>先整理一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_=[</span><br><span class="line">    __import__(<span class="string">'sys'</span>).stdout.write(<span class="string">"\n"</span>.join(<span class="string">'.'</span> * i + <span class="string">'Q'</span> + <span class="string">'.'</span> * (<span class="number">8</span>-i<span class="number">-1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> vec) + <span class="string">"\n===\n"</span>)</span><br><span class="line">    <span class="keyword">for</span> vec <span class="keyword">in</span> __import__(<span class="string">'itertools'</span>).permutations(range(<span class="number">8</span>)) </span><br><span class="line">    <span class="keyword">if</span> <span class="number">8</span> == len(set(vec[i]+i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>))) == len(set(vec[i]-i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>)))</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>看出结构了没?又是<strong>列表推导式</strong>(见代码分析 <a href="../coderesearch-py1">#1</a> <a href="../coderesearch-py2">#2</a>)<br>替换一些无关紧要的代码:  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"></span><br><span class="line">[</span><br><span class="line">    print(<span class="string">"\n"</span>.join(<span class="string">'.'</span> * i + <span class="string">'Q'</span> + <span class="string">'.'</span> * (<span class="number">8</span>-i<span class="number">-1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> vec) + <span class="string">"\n===\n"</span>,end=<span class="string">''</span>)</span><br><span class="line">    <span class="keyword">for</span> vec <span class="keyword">in</span> itertools.permutations(range(<span class="number">8</span>)) </span><br><span class="line">    <span class="keyword">if</span> <span class="number">8</span> == len(set(vec[i]+i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>))) == len(set(vec[i]-i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>)))</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>作为一名业余的,完全不知道八皇后是什么(倒是听班上搞竞赛的大佬说过)<br>为了这篇博文也是肝了  </p>
+<h2 id="八皇后问题"><a href="#八皇后问题" class="headerlink" title="八皇后问题"></a>八皇后问题</h2><p>八皇后问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：</p>
+<p>在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击.<br>即任意两个皇后都不能:  </p>
+<ul>
+<li>处于同一行</li>
+<li>同一列</li>
+<li>同一斜线上</li>
+</ul>
+<p>问有多少种摆法。 </p>
+<h2 id="这行Python代码"><a href="#这行Python代码" class="headerlink" title="这行Python代码"></a>这行Python代码</h2><p>研究了一番八皇后之后,发现这行代码并没有这么复杂.竟然是用的穷举法(这跟想象的不一样啊)</p>
+<table>
+<thead>
+<tr>
+<th>代码</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>itertools.permutations(range(8))</td>
+<td>返回可迭代对象的所有数学<strong>全排列</strong>方式.</td>
+</tr>
+</tbody></table>
+<p>所给的代码中不难(?)看出</p>
+<ul>
+<li>i表示”这一行中第i个元素为皇后Q”</li>
+<li>vec 表示”八行中每行的i组成的列表”</li>
+</ul>
+<p>为什么这么写?</p>
+<p>显然,八个皇后(Q)中的任意两个不能在同一行,即每一行只能有一个皇后,所以可以用 <code>[j1,j2,j3,j4,j5,j6,j7,j8]</code> 的形式表每一个可能的情况<br>同时,每一列只能有一个皇后,所以列表中的八个i,不能相同,正好满足全排列的条件.即可能的情况为”将1到8的所有数进行全排列”</p>
+<p>那么只需要再满足对角线不能相同即可</p>
+<h2 id="对角线的检测"><a href="#对角线的检测" class="headerlink" title="对角线的检测"></a>对角线的检测</h2><p>相比于对每个皇后检测,直接检测每一列更合适</p>
+<p>注意这部分</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vec[i]+i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+
+<p>由于同一主对角线上每个格子的坐标(x,y)满足 x+y=常数 ,而且对角线不同则常数不同.所以只需要检测所有皇后的两坐标之和有无重复即可<br>其中 i 表示行数,vec[i]表示列数  </p>
+<h2 id="Python-语法-集合"><a href="#Python-语法-集合" class="headerlink" title="Python 语法: 集合"></a>Python 语法: 集合</h2><p>Python中,set表示集合.它类似于列表,但是<strong>重复元素在set中自动被过滤</strong><br>set()函数将list转化为set,并过滤重复的元素  </p>
+<p>显然,如果每个对角线只有一个皇后(每个皇后所处对角线不同),那么她们的坐标和也应该不同,set函数也就不会过滤任何元素,集合长度(len函数)为8.<br>反之,当有重复的时候,重复的元素会被过滤,得到的集合长度小于8<br><del>妙啊</del>  </p>
+<p>所以套上set和len,判断 == 8</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="number">8</span> == len(set(vec[i]+i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>)))</span><br></pre></td></tr></table></figure>
+
+<p>然后Python是可以连等的,对于次对角线(x-y=常数),再来一次,就有了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="number">8</span> == len(set(vec[i]+i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>))) == len(set(vec[i]-i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>)))</span><br></pre></td></tr></table></figure>
+
+<p>综上,这部分代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> vec <span class="keyword">in</span> itertools.permutations(range(<span class="number">8</span>)) </span><br><span class="line"><span class="keyword">if</span> <span class="number">8</span> == len(set(vec[i]+i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>))) == len(set(vec[i]-i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>)))</span><br></pre></td></tr></table></figure>
+
+<p>用穷举法从全排列中得到了符合条件的解  </p>
+<h2 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"\n"</span>.join(<span class="string">'.'</span> * i + <span class="string">'Q'</span> + <span class="string">'.'</span> * (<span class="number">8</span>-i<span class="number">-1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> vec) + <span class="string">"\n===\n"</span>,end=<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在Python中, 字符串*整数 表示将字符串重复N遍.Q的前面有i个空格(用 . 表示的),后面有 8-i-1个    </li>
+<li>“\n===\n”用来分隔  </li>
+<li>‘\n’.join连接列表,得到要打印的内容</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>用穷举法解八皇后问题,算法效率比较低,但比较好写</li>
+<li>思路还是不错的,每行每列的条件用全排列解决,对角线用坐标和差解决</li>
+<li>巧妙运用Python的集合来过滤重复的元素</li>
+<li>装逼最简单的方法就是把s本来简单的东西搞复杂,某乎看来要大众化了</li>
+</ul>
+<p>这显然违背了Python精神: </p>
+<blockquote>
+<p>当存在多种可能,不要尝试去猜测,而是尽量找一种,最好是唯一一种明显的解决方案.<br>—— Tim Peters, “The Zen of Python”<br>优美的代码有适当的间隔，不要奢望一行代码解决问题<br>如果不确定，就用穷举法.<br>—— 中文翻译的注释</p>
+</blockquote>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>本来预定周六的,作业太多写不完了,今天就(在以一分钟只差错过了一次网课签到之后)提前发了.<br>隔壁让我学学代码审计,看情况怕是得鸽了  </p>
+
+        </div>
+      
+    
+    
+      <footer class="entry-meta">
+
+      <a href="/2020/coderesearch-py4/">
+    <time datetime="2020-03-13T10:03:25.000Z" class="entry-date">
+        2020-03-13
+    </time>
+</a>
+      
+      
+  <span class="article-delim">&#8226;</span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" rel="tag">代码分析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+      
+      </footer>
+    
+</article>
+
+
+    
+<nav class="nav-single">
+    <h3 class="assistive-text">文章导航</h3>
+    
+        <span class="nav-previous"><a href="/2020/bug-record-1/" rel="prev"><span class="meta-nav">←</span> 记一些博客Bug 1-2</a></span>
+    
+    
+        <span class="nav-next"><a href="/2020/coderesearch-py3/" rel="next">代码分析 #3 反转字符串 <span class="meta-nav">→</span></a></span>
+    
+</nav><!-- .nav-single -->
+
+
+
+
+
+
+        
+            <section id="comments">
+                <script src= "https://utteranc.es/client.js"
+                    repo= "leviolet/leviolet.github.io"
+                    issue-term= "pathname"
+                    label= "BlogComment"
+                    theme= "github-light"
+                    crossorigin= "anonymous"
+                    async>
+                </script>
+            
+</section>
+
+
+</div>
+      </div>
+      <div id="secondary" class="widget-area" role="complementary">
+  
+    
+  <aside class="widget" id="avatar-aside">
+    <div class="widget-content" id="avatar-widget">
+      <div id="avatar-div">
+        <img src="/images/avatar.jpg" alt="Hey!" id="avatar-img"></img>
+      </div>
+      <p>🆔 Leviolet<br/>
+📚 普通的学生.开学了,莫得时间更新<br/></p>
+    </div>
+  </aside>
+
+  
+    
+  <aside class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-content">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" rel="tag">代码分析</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" rel="tag">信息安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99%E5%BB%BA%E8%AE%BE/" rel="tag">网站建设</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </aside>
+
+  
+    
+    
+    <aside class="widget">
+      <h3 class="widget-title">背景音乐</h3>
+      <div class="widget-content">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=2&id=28151023&auto=0&height=32"></iframe>
+      </div>
+    </aside>
+  
+    <aside class="widget">
+      <h3 class="widget-title">友情链接</h3>
+      <div class="widget-content">
+        <ul>
+    <li><a href="http://mon0dy.top/" target="_blank" rel="noopener">mon0dy Web</a></li>
+    <li><a href="https://blog.csdn.net/m0_46230316" target="_blank" rel="noopener">mon0dy CSDN</a></li>
+</ul>
+
+      </div>
+    </aside>
+  
+  
+</div>
+    </div>
+    <footer id="colophon" role="contentinfo">
+    
+       <p>© 2020 Leviolet. All rights reserved<br/>
+Powered by: Hexo,CyanStyle<br/>
+Theme: VioletStyle v0.1.4
+</p>
+    
+</footer>
+    
+<script src="/js/jquery3.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/navigation.js"></script>
+
+<div id="bg"></div>
+
+  </div>
+
+  
+  
+  
+
+</body>
+
+</html>

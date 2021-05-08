@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="description" content="Since 2019" />
+  
+
+  
+  <meta name="keywords" content="blog" />
+  
+  
+  
+  
+  
+  
+  <title>代码分析 #2 打印心形 | Leviolet&#39;s Loft</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Python到底有多有多有(难)趣(懂)呢？一行代码告诉你！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码分析 #2 打印心形">
+<meta property="og:url" content="http://leviolet.github.io/2020/coderesearch-py2/index.html">
+<meta property="og:site_name" content="Leviolet&#39;s Loft">
+<meta property="og:description" content="Python到底有多有多有(难)趣(懂)呢？一行代码告诉你！">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="http://leviolet.github.io/2020/coderesearch-py2/xonly.jpg">
+<meta property="og:image" content="http://leviolet.github.io/2020/coderesearch-py2/xy.jpg">
+<meta property="og:image" content="http://leviolet.github.io/2020/coderesearch-py2/code-formula.png">
+<meta property="og:image" content="http://leviolet.github.io/2020/coderesearch-py2/range-1.png">
+<meta property="og:image" content="http://leviolet.github.io/2020/coderesearch-py2/chs-test.jpg">
+<meta property="article:published_time" content="2020-03-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-12T01:16:41.123Z">
+<meta property="article:author" content="Leviolet">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="代码分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://leviolet.github.io/2020/coderesearch-py2/xonly.jpg">
+  
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  
+  <!-- baidu webmaster push 查了一下,好像是百度拒绝外链的工具,暂时不用 -->
+  <!-- <script src='//push.zhanzhang.baidu.com/push.js'></script> -->
+  <!-- PWA manifest支持 -->
+  
+    <link rel="manifest" href="/manifest.json">
+  
+  
+    
+<link rel="stylesheet" href="/css/scheme.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="home blog custom-background custom-font-enabled single-author">
+  <div id="page" class="hfeed site">
+    <header id="masthead" class="site-header" role="banner">
+    <hgroup>
+      <h1 class="site-title">
+        <a href="/" title="Leviolet&#39;s Loft" rel="home">Leviolet&#39;s Loft</a>
+      </h1>
+      
+      <h2 class="site-description">
+        <a href="/" id="subtitle">互联网大森林中的平凡小屋</a>
+      </h2>
+      
+    </hgroup>
+	
+    <nav id="site-navigation" class="main-navigation" role="navigation">
+            <button class="menu-toggle">菜单</button>
+            <!-- <a class="assistive-text" href="/#content" title="跳至内容">跳至内容</a> TODO-->
+            <div class="menu-main-container">
+                <ul id="menu-main" class="nav-menu">
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/">🏡 主页</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/archives">🗄️ 归档</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/site/insta/">📔 随笔</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/tools/">🛠️ 工具</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/site/map/">🗺️ 导航</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/site/about/">⛄ 关于</a></li>
+                
+                </ul>
+            </div>
+    </nav>
+</header>
+
+    <div id="main" class="wrapper">
+      <div id="primary" class="site-content">
+        <div id="content" role="main"><article id="post-coderesearch-py2" class="post-coderesearch-py2 post type-post status-publish format-standard hentry">
+    <!---->
+
+      <header class="entry-header">
+        
+        
+  
+    <h1 class="entry-title article-title">
+      代码分析 #2 打印心形
+    </h1>
+  
+
+        
+      </header><!-- .entry-header -->
+
+    
+      
+        <div class="entry-content">
+          <blockquote>
+<p>一通百通是相对的</p>
+</blockquote>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'\n'</span>.join([<span class="string">''</span>.join([(<span class="string">'WangGangdan'</span>[(x-y)%<span class="number">10</span>]<span class="keyword">if</span>((x*<span class="number">0.05</span>)**<span class="number">2</span>+(y*<span class="number">0.1</span>)**<span class="number">2</span><span class="number">-1</span>)**<span class="number">3</span>-(x*<span class="number">0.05</span>)**<span class="number">2</span>*(y*<span class="number">0.1</span>)**<span class="number">3</span>&lt;=<span class="number">0</span> <span class="keyword">else</span><span class="string">' '</span>)<span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">-30</span>,<span class="number">30</span>)])<span class="keyword">for</span> y <span class="keyword">in</span> range(<span class="number">15</span>,<span class="number">-15</span>,<span class="number">-1</span>)]))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>原作者: WangGangdan</p>
+</blockquote>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>打印心形</p>
+<h2 id="为什么分析"><a href="#为什么分析" class="headerlink" title="为什么分析"></a>为什么分析</h2><p>当然,软件开发者们可以大喊”这不符合软件开发的原则!这段代码毫无可读性!”<br>(如果他们在加完班之后还有心思看代码)<br>如果你是Python哲学的践行者,你也可以输入 <code>import this</code> ,然后大声朗读Python的哲学:  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Python之禅 (节选) , by Tim Peters</span><br><span class="line">优美胜于丑陋</span><br><span class="line">明了胜于晦涩</span><br><span class="line">简洁胜于复杂</span><br><span class="line">复杂胜于凌乱</span><br><span class="line">扁平胜于嵌套</span><br><span class="line">间隔胜于紧凑</span><br><span class="line">可读性很重要</span><br></pre></td></tr></table></figure>
+
+<p>然而,一名业余爱好者大可把这些东西抛在一边,然后像他们一样大喊 <code>Just For Fun!</code></p>
+<h2 id="梳理"><a href="#梳理" class="headerlink" title="梳理"></a>梳理</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print(</span><br><span class="line">    <span class="string">'\n'</span>.join([</span><br><span class="line">        <span class="string">''</span>.join([</span><br><span class="line">            (<span class="string">'WangGangdan'</span>[(x-y)%<span class="number">10</span>] <span class="keyword">if</span>((x*<span class="number">0.05</span>)**<span class="number">2</span>+(y*<span class="number">0.1</span>)**<span class="number">2</span><span class="number">-1</span>)**<span class="number">3</span>-(x*<span class="number">0.05</span>)**<span class="number">2</span>*(y*<span class="number">0.1</span>)**<span class="number">3</span>&lt;=<span class="number">0</span> <span class="keyword">else</span> <span class="string">' '</span> )</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">-30</span>,<span class="number">30</span>)</span><br><span class="line">        ]) <span class="keyword">for</span> y <span class="keyword">in</span> range(<span class="number">15</span>,<span class="number">-15</span>,<span class="number">-1</span>)</span><br><span class="line">    ])</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>总的来说,这”行”代码用了:</p>
+<ul>
+<li>嵌套列表推导式</li>
+<li>join函数</li>
+<li>条件赋值</li>
+<li>数学知识确定的条件</li>
+</ul>
+<h2 id="核心部分"><a href="#核心部分" class="headerlink" title="核心部分"></a>核心部分</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="string">'WangGangdan'</span>[(x-y)%<span class="number">10</span>] <span class="keyword">if</span>( (x*<span class="number">0.05</span>)**<span class="number">2</span>+(y*<span class="number">0.1</span>)**<span class="number">2</span><span class="number">-1</span>)**<span class="number">3</span>-(x*<span class="number">0.05</span>)**<span class="number">2</span>*(y*<span class="number">0.1</span>)**<span class="number">3</span> &lt;= <span class="number">0</span> <span class="keyword">else</span> <span class="string">' '</span> )</span><br></pre></td></tr></table></figure>
+
+<p>很明显,这部分是这行代码的核心.<br>x,y由列表推导式确定,暂且看作列和行.  </p>
+<h3 id="条件赋值"><a href="#条件赋值" class="headerlink" title="条件赋值"></a>条件赋值</h3><p>条件赋值是Python的一个语法特性,它可以根据条件来确定一个表达式的值<br>格式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x <span class="keyword">if</span> 条件 <span class="keyword">else</span> y</span><br></pre></td></tr></table></figure>
+
+<p>如果”条件”成立,这个表达式的值是x,否则是y  </p>
+<p>在这部分中,意思就是如果”条件”(这个条件很复杂,后面再说)成立,值就是”王钢蛋(WangGangdan)”中的第(x-y)%10个元素,否则就是空格  </p>
+<h3 id="为什么是-x-y-10"><a href="#为什么是-x-y-10" class="headerlink" title="为什么是(x-y)%10"></a>为什么是(x-y)%10</h3><ol>
+<li>在y行数不变的情况下,x-y是随着x增加而增加的,WangGangdan会保持连续</li>
+<li>x-y是为了斜对齐,如果删掉就会变成上下的字母相同</li>
+<li>%10保证结果合理,不会越界</li>
+</ol>
+<img src="/2020/coderesearch-py2/xonly.jpg" class="">
+<img src="/2020/coderesearch-py2/xy.jpg" class="">
+
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(x*<span class="number">0.05</span>)**<span class="number">2</span> +(y*<span class="number">0.1</span>)**<span class="number">2</span><span class="number">-1</span>)**<span class="number">3</span> -(x*<span class="number">0.05</span>)**<span class="number">2</span> * (y*<span class="number">0.1</span>)**<span class="number">3</span> &lt;= <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>写成方程的形式就是:</p>
+<img src="/2020/coderesearch-py2/code-formula.png" class="">
+
+<h3 id="数学中的心形线"><a href="#数学中的心形线" class="headerlink" title="数学中的心形线"></a>数学中的心形线</h3><p>上网一查,心形的方程有若干种<br>比如:</p>
+<ul>
+<li>笛卡尔的心形线(微积分上册有)<br>r=a(1-sinθ)</li>
+<li>“另一种广为流传的方程”<br>(x<sup>2</sup>+y<sup>2</sup>-1)<sup>3</sup> = x<sup>2</sup>y<sup>3</sup></li>
+</ul>
+<p>很明显,这段代码用的是”另一种广为流传的方程”,换成了<code>&lt;=</code>表示边界内的点.<br>既然条件已经确定,只需要依次判断所有的点是否符合就行了.OK,搞定!<br>但x,y的范围是如何确定的?</p>
+<h3 id="x-y的范围"><a href="#x-y的范围" class="headerlink" title="x,y的范围"></a>x,y的范围</h3><p>不知道范围的话可能会打印的不全或者心形太小.<br>先两边开三次方,整理得y的二次方程<br>y<sup>2</sup>-x<sup>(2/3)</sup>y+(x<sup>2</sup>-1) &lt;= 0<br>利用公式法得到  </p>
+<img src="/2020/coderesearch-py2/range-1.png" class="">
+<p>根号内大于等于0,求导就行了(懒得算了)</p>
+<h2 id="其他的部分"><a href="#其他的部分" class="headerlink" title="其他的部分"></a>其他的部分</h2><h3 id="嵌套列表推导式"><a href="#嵌套列表推导式" class="headerlink" title="嵌套列表推导式"></a>嵌套列表推导式</h3><p>又是这东西…<br>里层的列表推导式是确定行,外层的是确定列<br>至于从 -30 开始,不会影响结果.因为列表的第一个也变成了第 -30 个点,不会影响输出  </p>
+<h3 id="join函数"><a href="#join函数" class="headerlink" title="join函数"></a>join函数</h3><p>join函数可以将列表的元素连接起来,他的参数是一个列表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"+"</span>.join([<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>])</span><br><span class="line">        &gt;&gt;&gt; <span class="string">"1+2+3"</span></span><br></pre></td></tr></table></figure>
+
+<p>然后里层用’’连接,外层用’\n’连接,合成一个字符串<br>最后print出来</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><ol>
+<li>公式: (x<em>0.05)**2 +(y*0.1)**2-1)**3 -(x*0.05)**2 \</em> (y*0.1)**3 &lt;= 0</li>
+<li>用(x-y)%10来反复输出字符串而又保持有序</li>
+<li>用列表推导式生成行和列</li>
+<li>用join函数连接起来</li>
+</ol>
+<h3 id="变式"><a href="#变式" class="headerlink" title="变式"></a>变式</h3><p>可以写成一个函数,心形里面的字符串可以随意</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_heart</span><span class="params">(your_name)</span>:</span></span><br><span class="line">    print(<span class="string">'\n'</span>.join([<span class="string">''</span>.join([(your_name[(x-y)%len(your_name)]<span class="keyword">if</span>((x*<span class="number">0.05</span>)**<span class="number">2</span>+(y*<span class="number">0.1</span>)**<span class="number">2</span><span class="number">-1</span>)**<span class="number">3</span>-(x*<span class="number">0.05</span>)**<span class="number">2</span>*(y*<span class="number">0.1</span>)**<span class="number">3</span>&lt;=<span class="number">0</span> <span class="keyword">else</span><span class="string">' '</span>)<span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">-30</span>,<span class="number">30</span>)])<span class="keyword">for</span> y <span class="keyword">in</span> range(<span class="number">15</span>,<span class="number">-15</span>,<span class="number">-1</span>)]))</span><br><span class="line">print_heart(<span class="string">"Study"</span>)</span><br></pre></td></tr></table></figure>
+
+
+<p>可我又没有女朋友,为分析这个浪费宝贵的一下午到底是在干什么…</p>
+<!-- 听说某音上有人把这东西叫"黑客表白代码",别笑话人了行吗?抖音平均智商低不是你蹭热度骗那些不懂的人的理由 -->
+
+<hr>
+<h3 id="补充-2020-3-8"><a href="#补充-2020-3-8" class="headerlink" title="补充 2020.3.8"></a>补充 2020.3.8</h3><p>中文的效果不是很好,改进方案  </p>
+<ul>
+<li>目测一个汉字的宽度约等于两个空格,所以将条件赋值中的单空格改成两个.  </li>
+<li>同时增大x的系数到0.1(伸缩变换)来保持比例  </li>
+<li>还要调整一下x的取值范围到(-15,15)</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_heart_ch</span><span class="params">(your_name)</span>:</span></span><br><span class="line">    print(<span class="string">'\n'</span>.join([<span class="string">''</span>.join([(your_name[(x-y)%len(your_name)]<span class="keyword">if</span>((x*<span class="number">0.1</span>)**<span class="number">2</span>+(y*<span class="number">0.1</span>)**<span class="number">2</span><span class="number">-1</span>)**<span class="number">3</span>-(x*<span class="number">0.1</span>)**<span class="number">2</span>*(y*<span class="number">0.1</span>)**<span class="number">3</span>&lt;=<span class="number">0</span> <span class="keyword">else</span><span class="string">'  '</span>)<span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">-15</span>,<span class="number">15</span>)])<span class="keyword">for</span> y <span class="keyword">in</span> range(<span class="number">15</span>,<span class="number">-15</span>,<span class="number">-1</span>)]))</span><br><span class="line">print_heart_ch(<span class="string">"世界和平"</span>)</span><br></pre></td></tr></table></figure>
+
+<img src="/2020/coderesearch-py2/chs-test.jpg" class="" title="效果图">
+
+<p>应该没人会想中英文混合吧…</p>
+<blockquote>
+<p>优美的代码有适当的间隔，不要奢望一行代码解决问题<br>—— Python之禅的注释</p>
+</blockquote>
+
+        </div>
+      
+    
+    
+      <footer class="entry-meta">
+
+      <a href="/2020/coderesearch-py2/">
+    <time datetime="2020-03-06T16:00:00.000Z" class="entry-date">
+        2020-03-07
+    </time>
+</a>
+      
+      
+  <span class="article-delim">&#8226;</span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" rel="tag">代码分析</a></li></ul>
+
+      
+      </footer>
+    
+</article>
+
+
+    
+<nav class="nav-single">
+    <h3 class="assistive-text">文章导航</h3>
+    
+        <span class="nav-previous"><a href="/2020/coderesearch-py3/" rel="prev"><span class="meta-nav">←</span> 代码分析 #3 反转字符串</a></span>
+    
+    
+        <span class="nav-next"><a href="/2020/coderesearch-py1/" rel="next">代码分析 #1 矩阵转置 <span class="meta-nav">→</span></a></span>
+    
+</nav><!-- .nav-single -->
+
+
+
+
+
+
+        
+            <section id="comments">
+                <script src= "https://utteranc.es/client.js"
+                    repo= "leviolet/leviolet.github.io"
+                    issue-term= "pathname"
+                    label= "BlogComment"
+                    theme= "github-light"
+                    crossorigin= "anonymous"
+                    async>
+                </script>
+            
+</section>
+
+
+</div>
+      </div>
+      <div id="secondary" class="widget-area" role="complementary">
+  
+    
+  <aside class="widget" id="avatar-aside">
+    <div class="widget-content" id="avatar-widget">
+      <div id="avatar-div">
+        <img src="/images/avatar.jpg" alt="Hey!" id="avatar-img"></img>
+      </div>
+      <p>🆔 Leviolet<br/>
+📚 普通的学生.开学了,莫得时间更新<br/></p>
+    </div>
+  </aside>
+
+  
+    
+  <aside class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-content">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" rel="tag">代码分析</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" rel="tag">信息安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99%E5%BB%BA%E8%AE%BE/" rel="tag">网站建设</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </aside>
+
+  
+    
+    
+    <aside class="widget">
+      <h3 class="widget-title">背景音乐</h3>
+      <div class="widget-content">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=2&id=28151023&auto=0&height=32"></iframe>
+      </div>
+    </aside>
+  
+    <aside class="widget">
+      <h3 class="widget-title">友情链接</h3>
+      <div class="widget-content">
+        <ul>
+    <li><a href="http://mon0dy.top/" target="_blank" rel="noopener">mon0dy Web</a></li>
+    <li><a href="https://blog.csdn.net/m0_46230316" target="_blank" rel="noopener">mon0dy CSDN</a></li>
+</ul>
+
+      </div>
+    </aside>
+  
+  
+</div>
+    </div>
+    <footer id="colophon" role="contentinfo">
+    
+       <p>© 2020 Leviolet. All rights reserved<br/>
+Powered by: Hexo,CyanStyle<br/>
+Theme: VioletStyle v0.1.4
+</p>
+    
+</footer>
+    
+<script src="/js/jquery3.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/navigation.js"></script>
+
+<div id="bg"></div>
+
+  </div>
+
+  
+  
+  
+
+</body>
+
+</html>

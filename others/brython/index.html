@@ -1,0 +1,27 @@
+<html>
+
+    <head>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.8.8/brython.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.8.8/brython_stdlib.js"></script>
+        
+    <meta name="generator" content="Hexo 4.2.1"></head>
+
+    <body onload="brython()">
+
+        <script type="text/python" src="test.py">
+        from browser import document, alert
+
+        print(f"{sum(range(16))}")
+
+        def echo(event):
+            alert(document["zone"].value)
+
+        document["mybutton"].bind("click", echo)
+
+        </script>
+
+        <input id="zone"><button id="mybutton">click !</button>
+
+    </body>
+
+</html>

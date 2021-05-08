@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Ajax Test</title>
+		<script>
+			function ajaxTest(){
+				var xmlhttp=new XMLHttpRequest();
+				xmlhttp.open("GET","world.json",true);
+
+				xmlhttp.onreadystatechange = () => {
+					if(xmlhttp.readyState==4 && xmlhttp.status==200){
+						const d = JSON.parse(xmlhttp.responseText);
+						document.getElementById("mydiv").textContent += d["content"];
+					}
+				}
+				
+				xmlhttp.send();
+			}
+			
+		</script>
+	<meta name="generator" content="Hexo 4.2.1"></head>
+	<body>
+		<pre>
+所有现代浏览器均支持 XMLHttpRequest 对象
+创建
+	var xmlhttp=new XMLHttpRequest();
+发送请求
+	xmlhttp.open("GET","地址",Async是否等待);
+	xmlhttp.send(字符串); 参数仅用于 POST 请求
+如果Async为true
+	应该设置xmlhttp.onreadystatechange的函数
+		if(xmlhttp.readyState==4 && xmlhttp.status==200){
+			// 得到的回复为 xmlhttp.responseText;
+			// 做点儿什么
+		}
+如果Async为false
+	send后使用xmlhttp.responseText;
+		</pre>
+		<div id="mydiv">Hello</div>
+		<button type="button" onclick="ajaxTest()">修改</button>
+	</body>
+</html>

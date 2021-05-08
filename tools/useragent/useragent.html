@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>UserAgent</title>
+	<script type="text/javascript">
+		document.onreadystatechange = function(ev){
+			uap = document.getElementById("uap");
+
+			// 判断 Firefox
+			x = navigator.userAgent.match(/Firefox\/\S+/);
+			if(x){
+				uap.innerText = x[0];
+				return 0;
+			}
+
+			// 判断IE
+			if(navigator.userAgent.search("Trident") != -1){
+				uap.innerText = "Internet Explorer";
+				return 0;
+			}
+			
+			// 判断Edge 
+			var x = navigator.userAgent.match(/Edge*\/\S+/);
+			if(x){
+				uap.innerText = x[0];
+				return 0;
+			}
+
+			// 判断 Chrome
+			x = navigator.userAgent.match(/Chrome\/\S+/);
+			if(x){
+				uap.innerText = x[0];
+				return 0;
+			}
+
+			// 判断 Safari
+			x = navigator.userAgent.match(/Safari\/\S+/);
+			if(x){
+				uap.innerText = x[0];
+				return 0;
+			}
+
+		}
+	</script>
+	<style>
+		#uadiv{
+			background: unset;
+			border: 1px solid gray;
+			text-align: center;
+			border-radius: 5px;
+		}
+		#uap{
+			margin: 5%;
+			font-size: normal;
+			font-family: sans-serif;
+		}
+	</style>
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+	<div id="uadiv"><p id="uap"></p></div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>随机数工具</title>
+	<style>
+		.normal-input{
+			
+		}
+	</style>
+	<script type="text/javascript">
+		
+		function rangeE(begin,end,except){
+			choices = new Array();
+			for(i=begin;i<=end;i++){
+				if(except.indexOf(i) === -1){
+					choices.push(i);
+				}
+			}
+			return choices;
+		}
+		
+		function fetchRandom(begin,end,except)
+		{
+			var randomInt = Math.round(Math.random() * (end -begin - 1));
+			result = begin + randomInt;
+			if(except.indexOf(result) === -1){
+				return result;
+			}else{
+				return fetchRandom(begin,end,except);
+			}
+		}
+		
+		function getRandom()
+		{
+			'use strict';
+			var beginInput = document.getElementById("begin");
+			var endInput = document.getElementById("end");
+			var exceptInput = document.getElementById("except");
+			var countInput = document.getElementById("count");
+			var resultDiv = document.getElementById("result-div");
+			var resultInput = document.getElementById("result");
+			
+			var begin = beginInput.valueAsNumber;
+			var end = endInput.valueAsNumber;
+			var count = countInput.valueAsNumber;
+			
+			var except = exceptInput.value.split(/\D+/).map(
+				function (x){
+					return Number(x);
+				}
+			);
+			
+			var i = 0;
+			resultInput.value = "";
+			if(end - begin - except.length + 1 < count)
+			{
+				resultInput.value = "好像没得选啊";
+				resultDiv.hidden = false;
+				return 1;
+			}
+			for(i=0;i<count;i++){
+				var r = rangeE(begin,end,except);
+				
+				var randomInt = Math.round(Math.random() * (r.length - 1));
+				
+				var result = r[randomInt];
+				except.push(result);
+				
+				resultInput.value += String(result) + " ";
+			}
+			
+			resultDiv.hidden = false;
+			
+		}
+	</script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+
+	<table id="random-table">
+		<tr>
+			<td>从</td>
+			<td><input type="number" step="1" class="normal-input" id="begin" value="1"/></td>
+		</tr>
+			<tr>
+				<td>到 </td>
+				<td><input type="number" step="1" class="normal-input" id="end" value="30"/></td>
+			</tr>
+			<tr>
+				<td>去除</td>
+				<td><input type="text" class="normal-input" id="except" value="" placeholder="用逗号或空格隔开"/></td>
+			</tr>
+			<tr>
+				<td>抽取</td>
+				<td><input type="number" step="1" class="normal-input" id="count" value="1"/>个</td>
+			</tr>
+	<tr id="result-div" hidden="true">
+		<td>结果</td>
+		<td><textarea rows="2" class="normal-input" id="result" readonly="readonly"></textarea></td>
+	</tr>
+	<tr>
+		<td align="center"><button id="get-random" onclick="getRandom()">Go!</button></td>
+	</tr>
+	</table>
+</body>
+</html>

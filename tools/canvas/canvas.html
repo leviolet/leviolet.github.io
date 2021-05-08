@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>画板工具</title>
+	<style>
+		#canvas {
+			border: 1px solid gray;
+			border-radius: 5px;
+		}
+	</style>
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body style="text-align: center;" width="500px">
+	<canvas id="canvas" width="500px" height="500px"></canvas>
+	<script>
+		c = document.getElementById('canvas');
+		ctx = c.getContext("2d");
+		ctx.fillStyle = 'black';
+		var drawing = false;
+
+		document.onmousedown = function(ev){
+			drawing = true;
+			var offsetX =  ev.offsetX;
+			var offsetY = ev.offsetY;
+			ctx.moveTo(offsetX,offsetY);
+		};
+		
+		document.onmousemove = function(ev){
+			if(drawing){
+				var offsetX =  ev.offsetX;
+				var offsetY = ev.offsetY;
+				ctx.lineTo(offsetX,offsetY);
+				ctx.stroke();
+				//ctx.fillRect(offsetX - 1,offsetY - 1,2,2);
+			}
+		};
+		document.onmouseup = function(ev){
+			drawing = false;
+		};
+
+		c.addEventListener("touchstart",function(ev){
+			alert("不支持触摸操作");
+		});
+		function cls(){
+			ctx.clearRect(0,0,1000,1000);
+			location.reload(); //上一行有点儿问题,直接刷新
+		}
+	</script>
+	<br/>
+	<button name="clearbutton" onclick="cls();" style="margin: 0 auto;">清空</button>
+</body>
+</html>

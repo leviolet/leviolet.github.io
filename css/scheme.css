@@ -1,0 +1,189 @@
+/* License: GPL V3 */
+/* 头像 */
+#avatar-img
+{
+    border-radius: 50%;
+    /*float: right;*/
+    width: 50%;
+}
+
+#avatar-div
+{
+    text-align: right;
+    margin-right: 0.5em;
+}
+
+#avatar-widget
+{
+    margin: 10% 10% 5% 5%;
+}
+
+#avatar-aside
+{
+    border: 1px solid rgba(0, 0, 0, 0.24);
+    border-radius: 3%;
+}
+
+/* 站点标题 */
+.site-title{
+    font-family:  "Ink Free", "Comic Sans MS" , sans-serif;
+    font-size: 100%;
+    text-align: center;
+    color: black;
+    letter-spacing: 2px;
+}
+
+.site-header h1,
+	.site-header h2 {
+		text-align: center;
+        letter-spacing: 2px;
+    }
+
+/* 菜单 */
+.main-navigation ul.nav-menu,
+.main-navigation div.nav-menu > ul {
+    /* Border Line for Main */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+    border-top: 1px solid rgba(0, 0, 0, 0.24);
+    display: inline-block !important;
+    text-align: center;
+    width: 100%;
+}
+
+/* 小标题字体 */
+.archive-title,
+.page-title,
+.widget-title,
+.entry-content th,
+.comment-content th {
+	font-size: 11px;
+	font-size: 0.785714286rem;
+	line-height: 2.181818182;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #C7955A; /* Widget Title */
+}
+
+.image-caption
+{
+    text-align: center;
+    font-size: smaller;
+    color: gray;
+    text-decoration:none;
+}
+
+/* 标题颜色渐变 */
+@keyframes colorloop
+{
+    0% {color: black;}
+    100% {color: rgb(70,174,192);}
+}
+
+.site-header h1 a,
+.site-header h2 a:hover {
+    animation: colorloop infinite 6s;
+    animation-direction: alternate;
+}
+
+/* 文章加密样式 */
+.hbe-input-container #hbePass
+{
+	border: 0;
+	border-radius: 2em;
+	text-align: center;
+}
+
+.hbe-input-container label
+{
+	pointer-events:none;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+.hbe-button:after {
+	visibility: hidden;
+}
+
+/* 光标 */
+#mycursor{
+    position: absolute;
+    pointer-events:none;
+    border: 0px solid #ccc;
+    cursor: auto;
+    width: 100px;
+    height: 100px;
+    opacity: 0.8;
+    animation:cursorRotate 1.6s linear infinite;
+    
+}
+    #topLeft{
+        position:absolute;
+        top: 0;
+        left: 0;
+        height: 25%;
+        width: 25%;
+        /*background-color: blueviolet;*/
+    }
+    #topRight{
+        position:absolute;
+        top: 0;
+        right: 0;
+        height: 25%;
+        width: 25%;
+        /*background-color: blueviolet;*/
+    }
+    #bottomLeft{
+        position:absolute;
+        bottom: 0;
+        left: 0;
+        height: 25%;
+        width: 25%;
+        float: right;
+        /*background-color: blueviolet;*/
+    }
+    #bottomRight{
+        position:absolute;
+        bottom: 0;
+        right: 0;
+        height: 25%;
+        width: 25%;
+        /*background-color: blueviolet;*/
+    }
+    #cursorIco {
+        animation: cursorIcoRotate 0.8s linear infinite;
+        font-size: 25px;
+    }
+
+    @keyframes cursorRotate
+    {
+        0% {
+            transform:rotate(0deg);
+        }
+        50% {
+            transform:rotate(180deg);
+        }
+        100% {
+            transform:rotate(360deg);
+        }
+    }
+    @keyframes cursorIcoRotate {
+        0% {
+            transform:rotate(0deg);
+        }
+        50% {
+            transform:rotate(180deg);
+        }
+        100% {
+            transform:rotate(360deg);
+        }
+    }
+
+
+
+/* 4.4哀悼 灰色
+html {
+    filter: grayscale(50%);
+}
+ */

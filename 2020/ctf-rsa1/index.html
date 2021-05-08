@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="description" content="Since 2019" />
+  
+
+  
+  <meta name="keywords" content="blog" />
+  
+  
+  
+  
+  
+  
+  <title>一道共模RSA题 : 第五空间2020初赛 | Leviolet&#39;s Loft</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="算我求你了,咱换成Python 3行不?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一道共模RSA题 : 第五空间2020初赛">
+<meta property="og:url" content="http://leviolet.github.io/2020/ctf-rsa1/index.html">
+<meta property="og:site_name" content="Leviolet&#39;s Loft">
+<meta property="og:description" content="算我求你了,咱换成Python 3行不?">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="http://leviolet.github.io/2020/ctf-rsa1/Extended_Euclidean_algorithm_in_matrix.jpg">
+<meta property="article:published_time" content="2020-06-24T10:00:01.000Z">
+<meta property="article:modified_time" content="2021-05-08T15:24:12.774Z">
+<meta property="article:author" content="Leviolet">
+<meta property="article:tag" content="信息安全">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://leviolet.github.io/2020/ctf-rsa1/Extended_Euclidean_algorithm_in_matrix.jpg">
+  
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  
+  <!-- baidu webmaster push 查了一下,好像是百度拒绝外链的工具,暂时不用 -->
+  <!-- <script src='//push.zhanzhang.baidu.com/push.js'></script> -->
+  <!-- PWA manifest支持 -->
+  
+    <link rel="manifest" href="/manifest.json">
+  
+  
+    
+<link rel="stylesheet" href="/css/scheme.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="home blog custom-background custom-font-enabled single-author">
+  <div id="page" class="hfeed site">
+    <header id="masthead" class="site-header" role="banner">
+    <hgroup>
+      <h1 class="site-title">
+        <a href="/" title="Leviolet&#39;s Loft" rel="home">Leviolet&#39;s Loft</a>
+      </h1>
+      
+      <h2 class="site-description">
+        <a href="/" id="subtitle">互联网大森林中的平凡小屋</a>
+      </h2>
+      
+    </hgroup>
+	
+    <nav id="site-navigation" class="main-navigation" role="navigation">
+            <button class="menu-toggle">菜单</button>
+            <!-- <a class="assistive-text" href="/#content" title="跳至内容">跳至内容</a> TODO-->
+            <div class="menu-main-container">
+                <ul id="menu-main" class="nav-menu">
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/">🏡 主页</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/archives">🗄️ 归档</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/site/insta/">📔 随笔</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/tools/">🛠️ 工具</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/site/map/">🗺️ 导航</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/site/about/">⛄ 关于</a></li>
+                
+                </ul>
+            </div>
+    </nav>
+</header>
+
+    <div id="main" class="wrapper">
+      <div id="primary" class="site-content">
+        <div id="content" role="main"><article id="post-ctf-rsa1" class="post-ctf-rsa1 post type-post status-publish format-standard hentry">
+    <!---->
+
+      <header class="entry-header">
+        
+        
+  
+    <h1 class="entry-title article-title">
+      一道共模RSA题 : 第五空间2020初赛
+    </h1>
+  
+
+        
+      </header><!-- .entry-header -->
+
+    
+      
+        <div class="entry-content">
+          <h1 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h1><p>2020年“第五空间”智能安全大赛初赛(合着你2020年的比赛还用Python2呗)  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flag <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes,bytes_to_long,getPrime</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> urandom</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_arg</span><span class="params">()</span>:</span></span><br><span class="line">    p=getPrime(<span class="number">1024</span>)</span><br><span class="line">    q=getPrime(<span class="number">1024</span>)</span><br><span class="line">    open(<span class="string">"log.txt"</span>,<span class="string">"w"</span>).write(hex(p)+<span class="string">"\n"</span>+hex(q))</span><br><span class="line">    n=p*q</span><br><span class="line">    e=getPrime(<span class="number">32</span>)</span><br><span class="line">    <span class="keyword">return</span> n,e,p,q</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mamacheck</span><span class="params">(c)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> long_to_bytes(c)[<span class="number">0</span>:<span class="number">4</span>]!=<span class="string">"rose"</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">babasay</span><span class="params">(m)</span>:</span></span><br><span class="line">    n,e,p,q=gen_arg()</span><br><span class="line">    c=pow(m,e,n)</span><br><span class="line">    <span class="keyword">print</span> hex(n)</span><br><span class="line">    <span class="keyword">print</span> hex(e)</span><br><span class="line">    <span class="keyword">print</span> hex(c)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> mamacheck(c):</span><br><span class="line">        e=getPrime(<span class="number">32</span>)</span><br><span class="line">    c = pow(m, e, n)</span><br><span class="line">    <span class="keyword">print</span> hex(e)</span><br><span class="line">    <span class="keyword">print</span> hex(c)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">m=bytes_to_long(flag+urandom(<span class="number">64</span>))</span><br><span class="line">babasay(m)</span><br><span class="line"></span><br><span class="line"><span class="string">'''otuput:</span></span><br><span class="line"><span class="string">0xa1d4d377001f1b8d5b2740514ce699b49dc8a02f12df9a960e80e2a6ee13b7a97d9f508721e3dd7a6842c24ab25ab87d1132358de7c6c4cee3fb3ec9b7fd873626bd0251d16912de1f0f1a2bba52b082339113ad1a262121db31db9ee1bf9f26023182acce8f84612bfeb075803cf610f27b7b16147f7d29cc3fd463df7ea31ca860d59aae5506479c76206603de54044e7b778e21082c4c4da795d39dc2b9c0589e577a773133c89fa8e3a4bd047b8e7d6da0d9a0d8a3c1a3607ce983deb350e1c649725cccb0e9d756fc3107dd4352aa18c45a65bab7772a4c5aef7020a1e67e6085cc125d9fc042d96489a08d885f448ece8f7f254067dfff0c4e72a63557L</span></span><br><span class="line"><span class="string">0xf4c1158fL</span></span><br><span class="line"><span class="string">0x2f6546062ff19fe6a3155d76ef90410a3cbc07fef5dff8d3d5964174dfcaf9daa003967a29c516657044e87c1cbbf2dba2e158452ca8b7adba5e635915d2925ac4f76312feb3b0c85c3b8722c0e4aedeaec2f2037cc5f676f99b7260c3f83ffbaba86cda0f6a9cd4c70b37296e8f36c3ceaae15b5bf0b290119592ff03427b80055f08c394e5aa6c45bd634c80c59a9f70a92dc70eebec15d4a5e256bf78775e0d3d14f3a0103d9ad8ea6257a0384091f14da59e52581ba2e8ad3adb9747435e9283e8064de21ac41ab2c7b161a3c072b7841d4a594a8b348a923d4cc39f02e05ce95a69c7500c29f6bb415c11e4e0cdb410d0ec2644d6243db38e893c8a3707L</span></span><br><span class="line"><span class="string">0xf493f7d1L</span></span><br><span class="line"><span class="string">0xd32dfad68d790022758d155f2d8bf46bb762ae5cc17281f2f3a8794575ec684819690b22106c1cdaea06abaf7d0dbf841ebd152be51528338d1da8a78f666e0da85367ee8c1e6addbf590fc15f1b2182972dcbe4bbe8ad359b7d15febd5597f5a87fa4c6c51ac4021af60aeb726a3dc7689daed70144db57d1913a4dc29a2b2ec34c99c507d0856d6bf5d5d01ee514d47c7477a7fb8a6747337e7caf2d6537183c20e14c7b79380d9f7bcd7cda9e3bfb00c2b57822663c9a5a24927bceec316c8ffc59ab3bfc19f364033da038a4fb3ecef3b4cb299f4b600f76b8a518b25b576f745412fe53d229e77e68380397eee6ffbc36f6cc734815cd4065dc73dcbcbL</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><h2 id="简单处理"><a href="#简单处理" class="headerlink" title="简单处理"></a>简单处理</h2><p>首先,这是份上古代码.Crypto库早就宣布无法使用了.<br>long_to_bytes 应当换为 .to_bytes(512,’big’)<br>当然to_bytes会导致有多余的0,而long_to_bytes会导致需要装一个很难装上的pycrypto库,自己权衡  </p>
+<p>有几句是明显的废话:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mamacheck</span><span class="params">(c)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> long_to_bytes(c)[<span class="number">0</span>:<span class="number">4</span>]!=<span class="string">"rose"</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<p>output都有两次输出了,这明显是返回的False,和mama的rose就没多大关系了(女拳警告)<br>还有能别范这么明显的Chinglish错误吗…  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open(<span class="string">"log.txt"</span>,<span class="string">"w"</span>).write(hex(p)+<span class="string">"\n"</span>+hex(q))</span><br></pre></td></tr></table></figure>
+
+<p>你不给我log.txt文件,又留一行写入文件的代码,是想暗示参赛选手攻击系统吗…  </p>
+<p>gen_arg() 是产生随机的一组n,e,p,q,但输出的只有n和e.p,q用不到  </p>
+<h2 id="RSA共模问题-不换n的后果"><a href="#RSA共模问题-不换n的后果" class="headerlink" title="RSA共模问题: 不换n的后果"></a>RSA共模问题: 不换n的后果</h2><p>已知<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="13.087ex" height="2.009ex" style="vertical-align: -0.671ex;" viewBox="0 -576.1 5634.8 865.1" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<title id="MathJax-SVG-1-Title">n,e_1,e_2,c_1,c_2</title>
+<defs aria-hidden="true">
+<path stroke-width="1" id="E1-GYREPAGELLANORMAL-1D45B" d="M514 85c-98 -73 -134 -94 -160 -94c-19 0 -30 15 -30 40c0 16 4 39 13 76l52 212c8 32 11 53 11 71c0 15 -6 24 -17 24c-45 0 -119 -62 -174 -146c-45 -69 -67 -134 -86 -260c-22 -4 -45 -10 -70 -17l-7 11c41 143 82 336 82 387c0 15 -7 25 -18 25c-7 0 -11 -1 -47 -25 l-32 -21l-7 20l28 20c73 52 112 74 133 74c15 0 23 -12 23 -33c0 -11 -2 -23 -6 -41l-38 -161c52 73 80 107 118 142c59 55 128 93 170 93c20 0 31 -13 31 -36c0 -17 -4 -45 -11 -74l-66 -276c-1 -4 -2 -15 -2 -20c0 -11 6 -20 13 -20c10 0 32 11 61 30l26 17Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-2C" d="M218 109c-28 -77 -66 -140 -147 -245l-41 -19l-14 11c58 96 83 161 90 237c53 15 71 21 98 30Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLANORMAL-1D452" d="M374 404c0 -62 -39 -107 -124 -145c-26 -11 -52 -21 -69 -25l-82 -20c-6 -29 -8 -54 -8 -80c0 -61 28 -98 76 -98c36 0 84 20 137 58l24 17l8 -19c-93 -75 -148 -103 -205 -103c-72 0 -116 46 -116 123c0 70 31 190 61 239c40 64 149 131 214 131c51 0 84 -31 84 -78z M300 388c0 32 -19 52 -48 52c-25 0 -57 -13 -76 -31c-27 -25 -47 -68 -63 -135l-9 -37c45 10 81 22 109 35c52 25 87 72 87 116Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-31" d="M418 -3l-157 3l-165 -3v30l56 3c54 3 65 14 65 66v485c0 24 -2 33 -8 33l-3 -1l-129 -58h-10l-7 43c91 32 162 62 227 96l14 -5v-593c0 -52 10 -63 65 -66l52 -3v-30Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-32" d="M468 -3l-229 3l-223 -3v26l170 181c113 120 155 194 155 269c0 85 -55 139 -141 139c-67 0 -103 -25 -119 -83l-13 -46h-29l17 136c49 50 98 70 170 70c127 0 205 -71 205 -186c0 -75 -30 -130 -127 -233l-182 -193l346 10c-2 -22 -2 -32 -2 -45c0 -14 0 -24 2 -45Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLANORMAL-1D450" d="M389 458c-9 -26 -16 -63 -24 -128h-23v60c0 24 -36 43 -81 43c-32 0 -57 -8 -78 -26c-48 -39 -82 -142 -82 -248c0 -79 29 -119 85 -119c35 0 73 17 145 65l15 10l8 -20l-50 -41c-55 -45 -103 -65 -157 -65c-80 0 -122 51 -122 147c0 107 38 211 95 261s128 85 173 85 c38 0 71 -8 96 -24Z"></path>
+</defs>
+<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D45B" x="0" y="0"></use>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-2C" x="556" y="0"></use>
+<g transform="translate(973,0)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D452" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-31" x="550" y="-213"></use>
+</g>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-2C" x="1817" y="0"></use>
+<g transform="translate(2234,0)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D452" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-32" x="550" y="-213"></use>
+</g>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-2C" x="3077" y="0"></use>
+<g transform="translate(3494,0)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D450" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-31" x="576" y="-213"></use>
+</g>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-2C" x="4356" y="0"></use>
+<g transform="translate(4773,0)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D450" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-32" x="576" y="-213"></use>
+</g>
+</g>
+</svg>解出<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1.808ex" height="1.676ex" style="vertical-align: -0.338ex;" viewBox="0 -576.1 778.5 721.6" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<title id="MathJax-SVG-1-Title">m</title>
+<defs aria-hidden="true">
+<path stroke-width="1" id="E1-GYREPAGELLANORMAL-1D45A" d="M740 85c-98 -73 -134 -94 -160 -94c-19 0 -30 15 -30 40c0 22 5 48 13 76l43 157c24 87 25 101 25 125c0 16 -5 25 -13 25c-32 0 -82 -35 -137 -96c-44 -49 -78 -124 -94 -205l-21 -107l-69 -15l-5 11l16 67c42 175 63 289 63 324c0 13 -4 21 -11 21 c-28 0 -73 -30 -115 -76c-55 -60 -82 -119 -106 -230l-22 -102l-68 -15l-3 11c41 143 82 336 82 387c0 15 -7 25 -18 25c-7 0 -11 -1 -47 -25l-32 -21l-7 20l28 20c74 53 112 74 133 74c14 0 23 -12 23 -31c0 -12 -2 -27 -6 -43l-33 -133c65 88 85 109 129 143 c55 42 101 64 131 64c16 0 26 -12 26 -31c0 -7 -3 -22 -7 -42l-30 -137c49 69 84 104 147 149c61 43 99 61 128 61c16 0 26 -11 26 -28c0 -8 -3 -24 -7 -41l-75 -297c-5 -21 -7 -30 -7 -40c0 -11 6 -20 13 -20c10 0 32 11 61 30l26 17Z"></path>
+</defs>
+<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D45A" x="0" y="0"></use>
+</g>
+</svg><br>方程组</p>
+<p style="text-align:center"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="100ex" height="6.176ex" style="vertical-align: -4.338ex; max-width: 60000px;" viewBox="0 -791.3 43055.4 2659.1" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<title id="MathJax-SVG-1-Title">e_1 · s_1 + e_2 · s_2 = 1 \\
+m = (e_1^{s_1} · e_2^{s_2}) \% n</title>
+<defs aria-hidden="true">
+<path stroke-width="1" id="E1-GYREPAGELLANORMAL-1D452" d="M374 404c0 -62 -39 -107 -124 -145c-26 -11 -52 -21 -69 -25l-82 -20c-6 -29 -8 -54 -8 -80c0 -61 28 -98 76 -98c36 0 84 20 137 58l24 17l8 -19c-93 -75 -148 -103 -205 -103c-72 0 -116 46 -116 123c0 70 31 190 61 239c40 64 149 131 214 131c51 0 84 -31 84 -78z M300 388c0 32 -19 52 -48 52c-25 0 -57 -13 -76 -31c-27 -25 -47 -68 -63 -135l-9 -37c45 10 81 22 109 35c52 25 87 72 87 116Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-31" d="M418 -3l-157 3l-165 -3v30l56 3c54 3 65 14 65 66v485c0 24 -2 33 -8 33l-3 -1l-129 -58h-10l-7 43c91 32 162 62 227 96l14 -5v-593c0 -52 10 -63 65 -66l52 -3v-30Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-B7" d="M200 250c0 -36 -24 -60 -60 -60s-60 24 -60 60s24 60 60 60s60 -24 60 -60Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLANORMAL-1D460" d="M345 455c-11 -51 -15 -78 -19 -113h-23v55c-16 27 -54 45 -95 45c-58 0 -102 -41 -102 -94c0 -41 19 -58 79 -69l43 -8c75 -14 106 -43 106 -97c0 -50 -21 -87 -72 -127s-97 -58 -146 -58c-35 0 -69 8 -107 27c11 46 17 81 22 132h25v-84c28 -24 58 -35 94 -35 c71 0 117 43 117 109c0 40 -16 57 -60 65l-63 12c-66 13 -97 45 -97 101c0 36 11 61 37 88c48 49 109 78 161 78c33 0 61 -8 100 -27Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-2B" d="M680 220h-270v-270c-10 2 -20 3 -30 3s-20 -1 -30 -3v270h-270c2 10 3 20 3 30s-1 20 -3 30h270v270c10 -2 20 -3 30 -3s20 1 30 3v-270h270c-2 -10 -3 -20 -3 -30s1 -20 3 -30Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-32" d="M468 -3l-229 3l-223 -3v26l170 181c113 120 155 194 155 269c0 85 -55 139 -141 139c-67 0 -103 -25 -119 -83l-13 -46h-29l17 136c49 50 98 70 170 70c127 0 205 -71 205 -186c0 -75 -30 -130 -127 -233l-182 -193l346 10c-2 -22 -2 -32 -2 -45c0 -14 0 -24 2 -45Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-3D" d="M680 330h-600c2 10 3 20 3 30s-1 20 -3 30h600c-2 -10 -3 -20 -3 -30s1 -20 3 -30zM680 110h-600c2 10 3 20 3 30s-1 20 -3 30h600c-2 -10 -3 -20 -3 -30s1 -20 3 -30Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLANORMAL-1D45A" d="M740 85c-98 -73 -134 -94 -160 -94c-19 0 -30 15 -30 40c0 22 5 48 13 76l43 157c24 87 25 101 25 125c0 16 -5 25 -13 25c-32 0 -82 -35 -137 -96c-44 -49 -78 -124 -94 -205l-21 -107l-69 -15l-5 11l16 67c42 175 63 289 63 324c0 13 -4 21 -11 21 c-28 0 -73 -30 -115 -76c-55 -60 -82 -119 -106 -230l-22 -102l-68 -15l-3 11c41 143 82 336 82 387c0 15 -7 25 -18 25c-7 0 -11 -1 -47 -25l-32 -21l-7 20l28 20c74 53 112 74 133 74c14 0 23 -12 23 -31c0 -12 -2 -27 -6 -43l-33 -133c65 88 85 109 129 143 c55 42 101 64 131 64c16 0 26 -12 26 -31c0 -7 -3 -22 -7 -42l-30 -137c49 69 84 104 147 149c61 43 99 61 128 61c16 0 26 -11 26 -28c0 -8 -3 -24 -7 -41l-75 -297c-5 -21 -7 -30 -7 -40c0 -11 6 -20 13 -20c10 0 32 11 61 30l26 17Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-28" d="M344 636c-111 -112 -164 -237 -164 -353v-66c0 -116 53 -241 164 -353c-6 -3 -11 -7 -16 -12s-9 -10 -12 -16c-123 123 -196 254 -196 381v66c0 127 73 258 196 381c3 -6 7 -11 12 -16s10 -9 16 -12Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-29" d="M304 217c0 -127 -73 -258 -196 -381c-3 6 -7 11 -12 16s-10 9 -16 12c111 112 164 237 164 353v66c0 116 -53 241 -164 353c6 3 11 7 16 12s9 10 12 16c123 -123 196 -254 196 -381v-66Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-25" d="M355 535c0 -96 -69 -167 -162 -167c-89 0 -154 65 -154 154c0 97 69 167 164 167c87 0 152 -66 152 -154zM283 533c0 82 -32 133 -83 133c-55 0 -89 -54 -89 -140s30 -135 83 -135c54 0 89 56 89 142zM802 167c0 -96 -69 -167 -162 -167c-89 0 -154 65 -154 154 c0 97 69 167 164 167c87 0 152 -66 152 -154zM730 165c0 82 -32 133 -83 133c-55 0 -89 -54 -89 -140s30 -135 83 -135c54 0 89 56 89 142zM616 709l-366 -729h-40l366 729h40Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLANORMAL-1D45B" d="M514 85c-98 -73 -134 -94 -160 -94c-19 0 -30 15 -30 40c0 16 4 39 13 76l52 212c8 32 11 53 11 71c0 15 -6 24 -17 24c-45 0 -119 -62 -174 -146c-45 -69 -67 -134 -86 -260c-22 -4 -45 -10 -70 -17l-7 11c41 143 82 336 82 387c0 15 -7 25 -18 25c-7 0 -11 -1 -47 -25 l-32 -21l-7 20l28 20c73 52 112 74 133 74c15 0 23 -12 23 -33c0 -11 -2 -23 -6 -41l-38 -161c52 73 80 107 118 142c59 55 128 93 170 93c20 0 31 -13 31 -36c0 -17 -4 -45 -11 -74l-66 -276c-1 -4 -2 -15 -2 -20c0 -11 6 -20 13 -20c10 0 32 11 61 30l26 17Z"></path>
+</defs>
+<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
+<g transform="translate(17605,0)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D452" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-31" x="550" y="-213"></use>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-B7" x="1065" y="0"></use>
+<g transform="translate(1568,0)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D460" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-31" x="550" y="-213"></use>
+</g>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-2B" x="2633" y="0"></use>
+<g transform="translate(3616,0)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D452" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-32" x="550" y="-213"></use>
+</g>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-B7" x="4682" y="0"></use>
+<g transform="translate(5185,0)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D460" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-32" x="550" y="-213"></use>
+</g>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-3D" x="6306" y="0"></use>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-31" x="7344" y="0"></use>
+</g>
+<g transform="translate(17871,-1428)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D45A" x="0" y="0"></use>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-3D" x="1056" y="0"></use>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-28" x="2094" y="0"></use>
+<g transform="translate(2519,0)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D452" x="0" y="0"></use>
+<g transform="translate(389,502)">
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLANORMAL-1D460" x="0" y="0"></use>
+ <use transform="scale(0.574)" xlink:href="#E1-GYREPAGELLAMAIN-31" x="479" y="-271"></use>
+</g>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-31" x="550" y="-463"></use>
+</g>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-B7" x="3864" y="0"></use>
+<g transform="translate(4366,0)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D452" x="0" y="0"></use>
+<g transform="translate(389,499)">
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLANORMAL-1D460" x="0" y="0"></use>
+ <use transform="scale(0.574)" xlink:href="#E1-GYREPAGELLAMAIN-32" x="479" y="-266"></use>
+</g>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-32" x="550" y="-458"></use>
+</g>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-29" x="5489" y="0"></use>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-25" x="5914" y="0"></use>
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D45B" x="6754" y="0"></use>
+</g>
+</g>
+</svg></p>
+<h2 id="欧几里得扩展算法-矩阵形式"><a href="#欧几里得扩展算法-矩阵形式" class="headerlink" title="欧几里得扩展算法(矩阵形式)"></a>欧几里得扩展算法(矩阵形式)</h2><p>见<a href="https://baike.baidu.com/item/%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">百度百科</a><br>本着”工科狗不配知道原理”的<strong>“工科应用精神”</strong>,展开如下分析:</p>
+<p>我只能看懂初等变换的矩阵形式</p>
+<img src="/2020/ctf-rsa1/Extended_Euclidean_algorithm_in_matrix.jpg" class="" title="欧几里得扩展算法-矩阵初等变换形式">
+<p>换成人话就是用列变换把第一行的两个元素中的一个变成1,1下面两个就是<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1.959ex" height="2.009ex" style="vertical-align: -0.671ex;" viewBox="0 -576.1 843.4 865.1" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<title id="MathJax-SVG-1-Title">s_1</title>
+<defs aria-hidden="true">
+<path stroke-width="1" id="E1-GYREPAGELLANORMAL-1D460" d="M345 455c-11 -51 -15 -78 -19 -113h-23v55c-16 27 -54 45 -95 45c-58 0 -102 -41 -102 -94c0 -41 19 -58 79 -69l43 -8c75 -14 106 -43 106 -97c0 -50 -21 -87 -72 -127s-97 -58 -146 -58c-35 0 -69 8 -107 27c11 46 17 81 22 132h25v-84c28 -24 58 -35 94 -35 c71 0 117 43 117 109c0 40 -16 57 -60 65l-63 12c-66 13 -97 45 -97 101c0 36 11 61 37 88c48 49 109 78 161 78c33 0 61 -8 100 -27Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-31" d="M418 -3l-157 3l-165 -3v30l56 3c54 3 65 14 65 66v485c0 24 -2 33 -8 33l-3 -1l-129 -58h-10l-7 43c91 32 162 62 227 96l14 -5v-593c0 -52 10 -63 65 -66l52 -3v-30Z"></path>
+</defs>
+<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D460" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-31" x="550" y="-213"></use>
+</g>
+</svg>和<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1.959ex" height="2.009ex" style="vertical-align: -0.671ex;" viewBox="0 -576.1 843.4 865.1" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<title id="MathJax-SVG-1-Title">s_2</title>
+<defs aria-hidden="true">
+<path stroke-width="1" id="E1-GYREPAGELLANORMAL-1D460" d="M345 455c-11 -51 -15 -78 -19 -113h-23v55c-16 27 -54 45 -95 45c-58 0 -102 -41 -102 -94c0 -41 19 -58 79 -69l43 -8c75 -14 106 -43 106 -97c0 -50 -21 -87 -72 -127s-97 -58 -146 -58c-35 0 -69 8 -107 27c11 46 17 81 22 132h25v-84c28 -24 58 -35 94 -35 c71 0 117 43 117 109c0 40 -16 57 -60 65l-63 12c-66 13 -97 45 -97 101c0 36 11 61 37 88c48 49 109 78 161 78c33 0 61 -8 100 -27Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-32" d="M468 -3l-229 3l-223 -3v26l170 181c113 120 155 194 155 269c0 85 -55 139 -141 139c-67 0 -103 -25 -119 -83l-13 -46h-29l17 136c49 50 98 70 170 70c127 0 205 -71 205 -186c0 -75 -30 -130 -127 -233l-182 -193l346 10c-2 -22 -2 -32 -2 -45c0 -14 0 -24 2 -45Z"></path>
+</defs>
+<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D460" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-32" x="550" y="-213"></use>
+</g>
+</svg>呗 </p>
+<p>祭出学线代用的sympy  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sympy <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure>
+
+<p>构建矩阵</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A = Matrix([</span><br><span class="line">    [e1,e2],</span><br><span class="line">    [<span class="number">1</span>,<span class="number">0</span>],</span><br><span class="line">    [<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+<p>通过辗转相除法化简</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">B = A</span><br><span class="line"><span class="keyword">while</span>(B[<span class="number">0</span>] != <span class="number">1</span> <span class="keyword">and</span> B[<span class="number">1</span>] != <span class="number">1</span>):</span><br><span class="line">    <span class="keyword">if</span> B[<span class="number">1</span>] &gt; B[<span class="number">0</span>]:</span><br><span class="line">        k = - B[<span class="number">1</span>] // B[<span class="number">0</span>] + <span class="number">1</span></span><br><span class="line">        B = B * Matrix([</span><br><span class="line">            [<span class="number">1</span>,k],</span><br><span class="line">            [<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">        ])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        k = - B[<span class="number">0</span>] // B[<span class="number">1</span>] + <span class="number">1</span></span><br><span class="line">        B = B * Matrix([</span><br><span class="line">            [<span class="number">1</span>,<span class="number">0</span>],</span><br><span class="line">            [k,<span class="number">1</span>]</span><br><span class="line">        ])</span><br></pre></td></tr></table></figure>
+
+<p>然后判断以下哪行是1,把下面两个元素取出来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="number">0</span></span><br><span class="line">s2 = <span class="number">0</span></span><br><span class="line"><span class="keyword">if</span>(B[<span class="number">0</span>] == <span class="number">1</span>):</span><br><span class="line">    s1 = B[<span class="number">2</span>]</span><br><span class="line">    s2 = B[<span class="number">4</span>]</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    s1 = B[<span class="number">3</span>]</span><br><span class="line">    s2 = B[<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
+<p>然后注意sympy的数字和python内置的数字是不一样的,要转换</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#坑爹的类型转换</span></span><br><span class="line">s1 = int(s1)</span><br><span class="line">s2 = int(s2)</span><br></pre></td></tr></table></figure>
+
+<p>检查一下对不对</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(e1*s1 + e2*s2 != <span class="number">1</span>):</span><br><span class="line">    print(<span class="string">"出错"</span>)</span><br><span class="line">    exit(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p>到此为止<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="4.887ex" height="2.009ex" style="vertical-align: -0.671ex;" viewBox="0 -576.1 2104 865.1" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" aria-labelledby="MathJax-SVG-1-Title">
+<title id="MathJax-SVG-1-Title">s_1,s_2</title>
+<defs aria-hidden="true">
+<path stroke-width="1" id="E1-GYREPAGELLANORMAL-1D460" d="M345 455c-11 -51 -15 -78 -19 -113h-23v55c-16 27 -54 45 -95 45c-58 0 -102 -41 -102 -94c0 -41 19 -58 79 -69l43 -8c75 -14 106 -43 106 -97c0 -50 -21 -87 -72 -127s-97 -58 -146 -58c-35 0 -69 8 -107 27c11 46 17 81 22 132h25v-84c28 -24 58 -35 94 -35 c71 0 117 43 117 109c0 40 -16 57 -60 65l-63 12c-66 13 -97 45 -97 101c0 36 11 61 37 88c48 49 109 78 161 78c33 0 61 -8 100 -27Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-31" d="M418 -3l-157 3l-165 -3v30l56 3c54 3 65 14 65 66v485c0 24 -2 33 -8 33l-3 -1l-129 -58h-10l-7 43c91 32 162 62 227 96l14 -5v-593c0 -52 10 -63 65 -66l52 -3v-30Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-2C" d="M218 109c-28 -77 -66 -140 -147 -245l-41 -19l-14 11c58 96 83 161 90 237c53 15 71 21 98 30Z"></path>
+<path stroke-width="1" id="E1-GYREPAGELLAMAIN-32" d="M468 -3l-229 3l-223 -3v26l170 181c113 120 155 194 155 269c0 85 -55 139 -141 139c-67 0 -103 -25 -119 -83l-13 -46h-29l17 136c49 50 98 70 170 70c127 0 205 -71 205 -186c0 -75 -30 -130 -127 -233l-182 -193l346 10c-2 -22 -2 -32 -2 -45c0 -14 0 -24 2 -45Z"></path>
+</defs>
+<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)" aria-hidden="true">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D460" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-31" x="550" y="-213"></use>
+ <use xlink:href="#E1-GYREPAGELLAMAIN-2C" x="843" y="0"></use>
+<g transform="translate(1260,0)">
+ <use xlink:href="#E1-GYREPAGELLANORMAL-1D460" x="0" y="0"></use>
+ <use transform="scale(0.707)" xlink:href="#E1-GYREPAGELLAMAIN-32" x="550" y="-213"></use>
+</g>
+</g>
+</svg>求出来了</p>
+<h2 id="求解"><a href="#求解" class="headerlink" title="求解"></a>求解</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m = (pow(c1,s1) * pow(c2,s2)) % n</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">m = (pow(c1,s1,n) * pow(c2,s2,n)) % n</span><br></pre></td></tr></table></figure>
+
+<p>这两个是恒等的,下面的要快一点</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">r = m.to_bytes(<span class="number">256</span>,<span class="string">'big'</span>)</span><br><span class="line">flag = r.strip(<span class="string">b"\x00"</span>)[:<span class="number">-64</span>]</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+
+<p>去掉前面多余的0和后面64个干扰字符</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b'g0od_go0d_stu4y_d4yd4y_Up'</span><br></pre></td></tr></table></figure>
+
+<p>解出</p>
+<h2 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h2><p>感谢学网安的老伙计<a href="https://mon0dy.top" target="_blank" rel="noopener">@mon0dy</a>给的题目和”共模攻击”的思路.话说这家伙又换域名了</p>
+<h2 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h2><p>解题代码: <a href="/2020/ctf-rsa1/solve.py" download="solve.py">solve.py</a><br>原题: <a href="/2020/ctf-rsa1/question.py" download="question.py">question.py</a></p>
+<h1 id="解题代码"><a href="#解题代码" class="headerlink" title="解题代码"></a>解题代码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:    utf-8</span></span><br><span class="line"><span class="comment"># author:    leviolet</span></span><br><span class="line"><span class="comment"># license:   MIT</span></span><br><span class="line"><span class="comment"># version:   Python 3.8+</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#踢开Python2</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kick_py2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">import</span> sys</span><br><span class="line">    <span class="keyword">if</span>(sys.version[<span class="number">0</span>] != <span class="string">'3'</span> <span class="keyword">and</span> int(sys.version[<span class="number">2</span>]) &lt; <span class="number">8</span>):</span><br><span class="line">        print(<span class="string">"需要Python3.8+"</span>)</span><br><span class="line">        exit(<span class="number">5</span>)</span><br><span class="line">kick_py2()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sympy <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line">n  = <span class="number">0xa1d4d377001f1b8d5b2740514ce699b49dc8a02f12df9a960e80e2a6ee13b7a97d9f508721e3dd7a6842c24ab25ab87d1132358de7c6c4cee3fb3ec9b7fd873626bd0251d16912de1f0f1a2bba52b082339113ad1a262121db31db9ee1bf9f26023182acce8f84612bfeb075803cf610f27b7b16147f7d29cc3fd463df7ea31ca860d59aae5506479c76206603de54044e7b778e21082c4c4da795d39dc2b9c0589e577a773133c89fa8e3a4bd047b8e7d6da0d9a0d8a3c1a3607ce983deb350e1c649725cccb0e9d756fc3107dd4352aa18c45a65bab7772a4c5aef7020a1e67e6085cc125d9fc042d96489a08d885f448ece8f7f254067dfff0c4e72a63557</span></span><br><span class="line">e1 = <span class="number">0xf4c1158f</span></span><br><span class="line">c1 = <span class="number">0x2f6546062ff19fe6a3155d76ef90410a3cbc07fef5dff8d3d5964174dfcaf9daa003967a29c516657044e87c1cbbf2dba2e158452ca8b7adba5e635915d2925ac4f76312feb3b0c85c3b8722c0e4aedeaec2f2037cc5f676f99b7260c3f83ffbaba86cda0f6a9cd4c70b37296e8f36c3ceaae15b5bf0b290119592ff03427b80055f08c394e5aa6c45bd634c80c59a9f70a92dc70eebec15d4a5e256bf78775e0d3d14f3a0103d9ad8ea6257a0384091f14da59e52581ba2e8ad3adb9747435e9283e8064de21ac41ab2c7b161a3c072b7841d4a594a8b348a923d4cc39f02e05ce95a69c7500c29f6bb415c11e4e0cdb410d0ec2644d6243db38e893c8a3707</span></span><br><span class="line">e2 = <span class="number">0xf493f7d1</span></span><br><span class="line">c2 = <span class="number">0xd32dfad68d790022758d155f2d8bf46bb762ae5cc17281f2f3a8794575ec684819690b22106c1cdaea06abaf7d0dbf841ebd152be51528338d1da8a78f666e0da85367ee8c1e6addbf590fc15f1b2182972dcbe4bbe8ad359b7d15febd5597f5a87fa4c6c51ac4021af60aeb726a3dc7689daed70144db57d1913a4dc29a2b2ec34c99c507d0856d6bf5d5d01ee514d47c7477a7fb8a6747337e7caf2d6537183c20e14c7b79380d9f7bcd7cda9e3bfb00c2b57822663c9a5a24927bceec316c8ffc59ab3bfc19f364033da038a4fb3ecef3b4cb299f4b600f76b8a518b25b576f745412fe53d229e77e68380397eee6ffbc36f6cc734815cd4065dc73dcbcb</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(gcd(e1,e2) != <span class="number">1</span>):</span><br><span class="line">    exit(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 扩展欧几里得算法 矩阵形式</span></span><br><span class="line"><span class="comment">#   求出化简矩阵B</span></span><br><span class="line">A = Matrix([</span><br><span class="line">    [e1,e2],</span><br><span class="line">    [<span class="number">1</span>,<span class="number">0</span>],</span><br><span class="line">    [<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">])</span><br><span class="line">B = A</span><br><span class="line"><span class="keyword">while</span>(B[<span class="number">0</span>] != <span class="number">1</span> <span class="keyword">and</span> B[<span class="number">1</span>] != <span class="number">1</span>):</span><br><span class="line">    <span class="keyword">if</span> B[<span class="number">1</span>] &gt; B[<span class="number">0</span>]:</span><br><span class="line">        k = - B[<span class="number">1</span>] // B[<span class="number">0</span>] + <span class="number">1</span></span><br><span class="line">        B = B * Matrix([</span><br><span class="line">            [<span class="number">1</span>,k],</span><br><span class="line">            [<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">        ])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        k = - B[<span class="number">0</span>] // B[<span class="number">1</span>] + <span class="number">1</span></span><br><span class="line">        B = B * Matrix([</span><br><span class="line">            [<span class="number">1</span>,<span class="number">0</span>],</span><br><span class="line">            [k,<span class="number">1</span>]</span><br><span class="line">        ])</span><br><span class="line">print(B)</span><br><span class="line"></span><br><span class="line"><span class="comment">#   根据B得出s1,s2</span></span><br><span class="line">s1 = <span class="number">0</span></span><br><span class="line">s2 = <span class="number">0</span></span><br><span class="line"><span class="keyword">if</span>(B[<span class="number">0</span>] == <span class="number">1</span>):</span><br><span class="line">    s1 = B[<span class="number">2</span>]</span><br><span class="line">    s2 = B[<span class="number">4</span>]</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    s1 = B[<span class="number">3</span>]</span><br><span class="line">    s2 = B[<span class="number">5</span>]</span><br><span class="line"><span class="comment"># 坑爹的类型转换</span></span><br><span class="line">s1 = int(s1)</span><br><span class="line">s2 = int(s2)</span><br><span class="line"></span><br><span class="line">print([s1,s2])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(e1*s1 + e2*s2 != <span class="number">1</span>):</span><br><span class="line">    print(<span class="string">"出错"</span>)</span><br><span class="line">    exit(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 求出m.</span></span><br><span class="line"><span class="comment"># 注意: 在python 3.7及以下的版本,pow的第二个参数不能为负数,建议换为math.pow</span></span><br><span class="line">m = (pow(c1,s1,n) * pow(c2,s2,n)) % n <span class="comment">#或者 (pow(c1,s1) * pow(c2,s2)) % n</span></span><br><span class="line">print(m)</span><br><span class="line"></span><br><span class="line"><span class="comment">#转化为字符，并除去前面多余的0和后面64个混淆字符</span></span><br><span class="line">r = m.to_bytes(<span class="number">512</span>,<span class="string">'big'</span>)</span><br><span class="line">flag = r.strip(<span class="string">b"\x00"</span>)[:<span class="number">-64</span>]</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+        </div>
+      
+    
+    
+      <footer class="entry-meta">
+
+      <a href="/2020/ctf-rsa1/">
+    <time datetime="2020-06-24T10:00:01.000Z" class="entry-date">
+        2020-06-24
+    </time>
+</a>
+      
+      
+  <span class="article-delim">&#8226;</span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" rel="tag">信息安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+      
+      </footer>
+    
+</article>
+
+
+    
+<nav class="nav-single">
+    <h3 class="assistive-text">文章导航</h3>
+    
+        <span class="nav-previous"><a href="/2021/microblog-update/" rel="prev"><span class="meta-nav">←</span> [随笔] 无题</a></span>
+    
+    
+        <span class="nav-next"><a href="/2020/bug-record-1/" rel="next">记一些博客Bug 1-2 <span class="meta-nav">→</span></a></span>
+    
+</nav><!-- .nav-single -->
+
+
+
+
+
+
+        
+            <section id="comments">
+                <script src= "https://utteranc.es/client.js"
+                    repo= "leviolet/leviolet.github.io"
+                    issue-term= "pathname"
+                    label= "BlogComment"
+                    theme= "github-light"
+                    crossorigin= "anonymous"
+                    async>
+                </script>
+            
+</section>
+
+
+</div>
+      </div>
+      <div id="secondary" class="widget-area" role="complementary">
+  
+    
+  <aside class="widget" id="avatar-aside">
+    <div class="widget-content" id="avatar-widget">
+      <div id="avatar-div">
+        <img src="/images/avatar.jpg" alt="Hey!" id="avatar-img"></img>
+      </div>
+      <p>🆔 Leviolet<br/>
+📚 普通的学生.开学了,莫得时间更新<br/></p>
+    </div>
+  </aside>
+
+  
+    
+  <aside class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-content">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" rel="tag">代码分析</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" rel="tag">信息安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99%E5%BB%BA%E8%AE%BE/" rel="tag">网站建设</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </aside>
+
+  
+    
+    
+    <aside class="widget">
+      <h3 class="widget-title">背景音乐</h3>
+      <div class="widget-content">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=2&id=28151023&auto=0&height=32"></iframe>
+      </div>
+    </aside>
+  
+    <aside class="widget">
+      <h3 class="widget-title">友情链接</h3>
+      <div class="widget-content">
+        <ul>
+    <li><a href="http://mon0dy.top/" target="_blank" rel="noopener">mon0dy Web</a></li>
+    <li><a href="https://blog.csdn.net/m0_46230316" target="_blank" rel="noopener">mon0dy CSDN</a></li>
+</ul>
+
+      </div>
+    </aside>
+  
+  
+</div>
+    </div>
+    <footer id="colophon" role="contentinfo">
+    
+       <p>© 2020 Leviolet. All rights reserved<br/>
+Powered by: Hexo,CyanStyle<br/>
+Theme: VioletStyle v0.1.4
+</p>
+    
+</footer>
+    
+<script src="/js/jquery3.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/navigation.js"></script>
+
+<div id="bg"></div>
+
+  </div>
+
+  
+  
+  
+
+</body>
+
+</html>
