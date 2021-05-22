@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://leviolet.github.io/2020/coderesearch-py1/index.html">
 <meta property="og:site_name" content="Leviolet&#39;s Loft">
 <meta property="og:description" content="[[row[i] for row in matrix] for i in range(4)]">
-<meta property="og:locale" content="zh">
+<meta property="og:locale">
 <meta property="article:published_time" content="2020-02-21T16:00:00.000Z">
 <meta property="article:modified_time" content="2020-03-08T04:03:23.741Z">
 <meta property="article:author" content="Leviolet">
@@ -51,7 +51,7 @@
 
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="home blog custom-background custom-font-enabled single-author">
   <div id="page" class="hfeed site">
@@ -60,6 +60,7 @@
       <h1 class="site-title">
         <a href="/" title="Leviolet&#39;s Loft" rel="home">Leviolet&#39;s Loft</a>
       </h1>
+
       
       <h2 class="site-description">
         <a href="/" id="subtitle">互联网大森林中的平凡小屋</a>
@@ -113,19 +114,27 @@
           <blockquote>
 <p><del>隔壁SQL写的风声水起啊,得找个理由发篇博客凑数</del></p>
 </blockquote>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">matrix = [</span><br><span class="line">    [<span class="number">1</span>, <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span> ],</span><br><span class="line">    [<span class="number">5</span>, <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span> ],</span><br><span class="line">    [<span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>],</span><br><span class="line">]</span><br><span class="line"><span class="comment"># 将3X4的列表转换为4X3列表</span></span><br><span class="line">[[row[i] <span class="keyword">for</span> row <span class="keyword">in</span> matrix] <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>)]</span><br></pre></td></tr></table></figure>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">matrix = [</span><br><span class="line">    [<span class="number">1</span>, <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span> ],</span><br><span class="line">    [<span class="number">5</span>, <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span> ],</span><br><span class="line">    [<span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>],</span><br><span class="line">]</span><br><span class="line"><span class="comment"># 将3X4的列表转换为4X3列表</span></span><br><span class="line">[[row[i] <span class="keyword">for</span> row <span class="keyword">in</span> matrix] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>出处:<a href="https://www.runoob.com/" target="_blank" rel="noopener">菜鸟教程</a></p>
+<p>出处:<a href="https://www.runoob.com/">菜鸟教程</a></p>
 </blockquote>
 <h2 id="冷静分析"><a href="#冷静分析" class="headerlink" title="冷静分析"></a>冷静分析</h2><p>乍一看挺复杂,其实(对我这种萌新来说)就是很复杂<br>从最简单的列表推导式开始说起,像这种</p>
-<pre><code>[x ** 3 for x in range(1,5)]</code></pre><p>会生成一个列表[1,8,27,64,125],基本过程就是从后面的range(1,5)中依次取出一个数,并对他进行一些操作(3次方),然后将结果生成一个列表</p>
+<pre><code>[x ** 3 for x in range(1,5)]
+</code></pre>
+<p>会生成一个列表[1,8,27,64,125],基本过程就是从后面的range(1,5)中依次取出一个数,并对他进行一些操作(3次方),然后将结果生成一个列表</p>
 <p>然后看代码</p>
-<pre><code>[[row[i] for row in matrix] for i in range(4)]</code></pre><p>首先这是一个嵌套(套娃)的列表推导式,那就拆开由里向外看(执行顺序好像是从外到里)</p>
-<h3 id="里层"><a href="#里层" class="headerlink" title="里层"></a>里层</h3><pre><code>[row[i] for row in matrix]</code></pre><p>这一段的的意思是对于matrix的每一个元素(每一行,比如[1,2,3,4]),设为row,对row取第i个值.i由外层确定<br>比如当i等于0时,就是[row[0] for row in matrix],得到的是每一行的第0个元素组成的列表,也就是第一列.<br>这样就把原来的第一列变成了第一行</p>
-<h3 id="外层"><a href="#外层" class="headerlink" title="外层"></a>外层</h3><pre><code>[ [...] for i in range(4)]</code></pre><p>里层是把第i列变成第i行,外层就好理解了<br>一共四行,i依次等于0,1,2,3不就行了</p>
+<pre><code>[[row[i] for row in matrix] for i in range(4)]
+</code></pre>
+<p>首先这是一个嵌套(套娃)的列表推导式,那就拆开由里向外看(执行顺序好像是从外到里)</p>
+<h3 id="里层"><a href="#里层" class="headerlink" title="里层"></a>里层</h3><pre><code>[row[i] for row in matrix]
+</code></pre>
+<p>这一段的的意思是对于matrix的每一个元素(每一行,比如[1,2,3,4]),设为row,对row取第i个值.i由外层确定<br>比如当i等于0时,就是[row[0] for row in matrix],得到的是每一行的第0个元素组成的列表,也就是第一列.<br>这样就把原来的第一列变成了第一行</p>
+<h3 id="外层"><a href="#外层" class="headerlink" title="外层"></a>外层</h3><pre><code>[ [...] for i in range(4)]
+</code></pre>
+<p>里层是把第i列变成第i行,外层就好理解了<br>一共四行,i依次等于0,1,2,3不就行了</p>
 <h2 id="变式"><a href="#变式" class="headerlink" title="变式"></a><del>变式</del></h2><p>也可以这么写</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rows = range(len(matrix))</span><br><span class="line">cols = range(len(matrix[<span class="number">0</span>]))</span><br><span class="line">[[matrix[i][j] <span class="keyword">for</span> i <span class="keyword">in</span> rows] <span class="keyword">for</span> j <span class="keyword">in</span> cols]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rows = <span class="built_in">range</span>(<span class="built_in">len</span>(matrix))</span><br><span class="line">cols = <span class="built_in">range</span>(<span class="built_in">len</span>(matrix[<span class="number">0</span>]))</span><br><span class="line">[[matrix[i][j] <span class="keyword">for</span> i <span class="keyword">in</span> rows] <span class="keyword">for</span> j <span class="keyword">in</span> cols]</span><br></pre></td></tr></table></figure>
 
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本来简单的问题,一旦套娃,就变复杂了…<br>希望线代能好过一点  </p>
 
@@ -201,7 +210,7 @@
   <aside class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-content">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" rel="tag">代码分析</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" rel="tag">信息安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99%E5%BB%BA%E8%AE%BE/" rel="tag">网站建设</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" rel="tag">代码分析</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" rel="tag">信息安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B6%E4%BB%96/" rel="tag">其他</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%AB%99%E5%BB%BA%E8%AE%BE/" rel="tag">网站建设</a><span class="tag-list-count">2</span></li></ul>
     </div>
   </aside>
 
@@ -211,7 +220,7 @@
     <aside class="widget">
       <h3 class="widget-title">背景音乐</h3>
       <div class="widget-content">
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=2&id=28151023&auto=0&height=32"></iframe>
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="https://music.163.com/outchain/player?type=2&id=28151023&auto=0&height=32"></iframe>
       </div>
     </aside>
   
@@ -219,8 +228,8 @@
       <h3 class="widget-title">友情链接</h3>
       <div class="widget-content">
         <ul>
-    <li><a href="http://mon0dy.top/" target="_blank" rel="noopener">mon0dy Web</a></li>
-    <li><a href="https://blog.csdn.net/m0_46230316" target="_blank" rel="noopener">mon0dy CSDN</a></li>
+    <li><a href="http://mon0dy.top/">mon0dy Web</a></li>
+    <li><a href="https://blog.csdn.net/m0_46230316">mon0dy CSDN</a></li>
 </ul>
 
       </div>
